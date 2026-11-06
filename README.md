@@ -1,94 +1,48 @@
-# Putting it All Together: Components and Props
+# Personal Blog
 
-## Learning Goals
+A small React blog built with Vite. Blog content lives in `src/data/blog.js` and
+is passed through the component tree as props.
 
-- Create components that return JSX
-- Use props to make components dynamic
-- Transform lists of data into lists of components
+## Run the project
 
-## Overview
+Requirements: Node.js and npm.
 
-Now that you've learned how to work with components in React, it's time to build
-something and put those skills to use! Your goal for this lab is to make a
-_static site_ in React to practice building components, writing JSX, and passing
-down data as props.
+```bash
+npm install
+npm run dev
+```
 
-We'll be creating a personal blog site, similar to
-[Dan Abramov's Overreacted](https://overreacted.io/):
+Open the local URL printed by Vite (usually `http://localhost:5173`).
 
-![demo](https://curriculum-content.s3.amazonaws.com/phase-2/react-hooks-component-props-mini-project/demo.png)
+Useful commands:
 
-There is some starter code available in `src/components/App.js`. There is also
-some data in `data/blog.js` that is being imported into `App` so you can pass it
-down to the components that need it.
+```bash
+npm test -- --run
+npm run build
+npm run preview
+```
 
-## Deliverables
+## Blog screenshot
 
-Have a look at the components below and draw out a component hierarchy so you
-can determine how to pass data down as props.
+![Screenshot of the running personal blog](./images/blog-site.png)
 
-### Header
+## Components and connections
 
-Make a `Header` component as a child of `App`. It should return:
+```text
+App
+├── Header
+├── About
+└── ArticleList
+    └── Article (one per post)
+```
 
-- a `<header>` element with the following elements inside:
-  - an `<h1>` with the name of the blog, passed as a prop called `name`
+| Component | Purpose | Connected to |
+| --- | --- | --- |
+| `App` (`src/components/App.jsx`) | Loads blog data and assembles the page. | Parent of `Header`, `About`, and `ArticleList`. |
+| `Header` (`src/components/Header.jsx`) | Displays the blog name in a heading. | Child of `App`; receives `name`. |
+| `About` (`src/components/About.jsx`) | Displays the accessible blog image and description. | Child of `App`; receives `image` and `about`. |
+| `ArticleList` (`src/components/ArticleList.jsx`) | Renders the list of blog posts. | Child of `App`; creates an `Article` for each post. |
+| `Article` (`src/components/Article.jsx`) | Displays one post's title, date, and preview. | Child of `ArticleList`; receives fields from a post. |
 
-### About
-
-Make an `About` component as a child of `App`. It should return:
-
-- an `<aside>` element with the following elements inside:
-  - an `<img>` element, with the `src` set to an image passed as a prop called
-    `image`
-  - the `<img>` element should use this placeholder image as a _default value_
-    for the prop if no prop is passed in: "https://via.placeholder.com/215"
-  - the image should also be accessible! Give it an `alt` attribute of "blog
-    logo"
-  - a `<p>` element, with the text for the blog passed in as a prop called
-    `about`
-
-### ArticleList
-
-Make an `ArticleList` component as a child of `App`. It should return:
-
-- a `<main>` element with the following components inside:
-  - an array of `Article` components (one component for each of the `posts`
-    passed down as props to `ArticleList`)
-  - make sure to assign a unique `key` attribute to each `Article`
-
-### Article
-
-Make an `Article` component as a child of `ArticleList`. It should return:
-
-- an `<article>` element, with the following elements inside:
-  - an `<h3>` element displaying the title of the article, passed as a prop
-    called `title`
-  - a `<small>` element displaying the date of the article, passed as a prop
-    called `date`
-    - a _default value_ of "January 1, 1970" should be used if no date is passed
-      as a prop
-  - a `<p>` element displaying the preview of the article, passed as a prop
-    called `preview`
-
-### Bonus Feature: 'Minutes to Read'
-
-You'll notice in the original [Overreacted](https://overreacted.io/) site,
-there's a 'minutes to read' indicator next to each article.
-
-If the article takes less than 30 minutes to read:
-
-- For every 5 minutes (rounded up to the nearest 5), display a coffee cup emoji.
-  For example, if the article takes 3 minutes to read, you should display "☕️ 3
-  min read". If the article takes 7 minute, you should display "☕️☕️ 7 min
-  read".
-
-If the article takes 30 minutes or longer to read:
-
-- For every 10 minutes (rounded up to the nearest 10), display a bento box
-  emoji. For example, if the article takes 35 minutes to read, you should
-  display "🍱🍱🍱🍱 35 min read". If the article takes 61 minutes to read, you
-  should display "🍱🍱🍱🍱🍱🍱🍱 61 min read".
-
-There aren't tests for this feature, so you'll have to rely on running the code
-in the browser to see if your implementation works!
+This project uses `App`, `Header`, and `ArticleList`; it does not currently have
+`Home.jsx` or `Links.jsx` components.
